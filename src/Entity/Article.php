@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ *
  */
 class Article
 {
@@ -18,11 +19,14 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="le titre est obligatoire")
+     * @Assert\Length(max="20", maxMessage="Le titre est obligatoire")
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotBlank(message="le contenu est obligatoire")
      */
     private $content;
 
@@ -36,6 +40,7 @@ class Article
      *
      * @ORM\ManyToOne(targetEntity="Category")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank(message="la catégorie est obligatoire")
      *
      */
     private $category;
@@ -46,6 +51,18 @@ class Article
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\Image(
+     *     maxSize="1M",
+     *     maxSizeMessage="Le fichier ne doit pas faire plus de 1Mo",
+     *     mimeTypesMessage="Le fichier doit être une image"
+     * )
+     */
+    private $image;
+
 
     public function getId(): ?int
     {
@@ -121,6 +138,24 @@ class Article
     public function setAuthor(User $author): Article
     {
         $this->author = $author;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param mixed $image
+     * @return Article
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
         return $this;
     }
 
