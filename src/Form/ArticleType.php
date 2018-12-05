@@ -40,7 +40,7 @@ class ArticleType extends AbstractType
                     'label' =>'Categorie',
                     // nom de l'entité
                     'class' => Category::class,
-                    // nom de l'attribut utilissé pour l'affichage des options
+                    // nom de l'attribut utilisé pour l'affichage des options
                     'choice_label' => 'name',
                     // pour avoir une 1ère option vide
                     'placeholder' => 'Choisissez une catégorie'

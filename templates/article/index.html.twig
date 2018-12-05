@@ -2,4 +2,56 @@
 
 {% block body %}
     <h1>{{ article.title }}</h1>
+
+    <p>
+        Par {{ article.author }},
+        <em>{{ article.publicationDate|date('d-m-Y h:i') }}</em>
+        <strong> Dans {{ article.category }}</strong>
+    </p>
+    {% if article.image is not null %}
+        <div class="text-center">
+            <img src="{{ asset('images/' ~ article.image) }}">
+        </div>
+    {% endif %}
+    <p>{{ article.content|nl2br }}</p>
+
+
+    {% if app.user is null %}
+        <p>Pour écrire un commentaire, veuillez vous <a href="{{ path('app_security_login') }}">connecter</a></p>
+    {% else %}
+        {# deposer le formulaire ici #}
+        {{ form_start(form) }}
+        {{ form_row(form.content) }}
+        <div class="text-right">
+            <button class="btn btn-primary" type="submit">
+                Enregistrer
+            </button>
+        </div>
+        {{ form_end(form) }}
+    {% endif %}
+
+    <h1>Commentaires</h1>
+    {% for comment in article.comments %}
+        <p>Par {{ comment.user }} le {{ comment.publicationDate|date('d/m/Y H:i') }} :</p>
+        <p>{{ comment.content }}</p>
+        {% else %}
+        <p>Aucun commentaire pour cette article.</p>
+    {% endfor %}
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
